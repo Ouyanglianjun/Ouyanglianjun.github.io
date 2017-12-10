@@ -1,0 +1,1114 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OpenStack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="参考：原文链接 1、为啥要选择云计算（1）有效的解决了硬件单节点故障问题单点故障是指某个硬件的故障造成网站某个服务的中断。要真正解决这个问题，需要为每个硬件准备冗余，这不仅大大增加了硬件购置成本，而且部署与维护成本也不容小视。而云计算平台是基于服务器集群，从设计之初就考虑了单点故障问题，并在建设时有效地解决了这个问题。">
+<meta name="keywords" content="OpenStack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenStack入门介绍">
+<meta property="og:url" content="http://yoursite.com/2017/07/22/OpenStack入门介绍/index.html">
+<meta property="og:site_name" content="Richard">
+<meta property="og:description" content="参考：原文链接 1、为啥要选择云计算（1）有效的解决了硬件单节点故障问题单点故障是指某个硬件的故障造成网站某个服务的中断。要真正解决这个问题，需要为每个硬件准备冗余，这不仅大大增加了硬件购置成本，而且部署与维护成本也不容小视。而云计算平台是基于服务器集群，从设计之初就考虑了单点故障问题，并在建设时有效地解决了这个问题。如果一家云服务商出现单点故障问题，就如同存在银行的钱丢了。 （2）按需增减资源自">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/0D6CA74259FE4025977AFECF3CD31A55/5213">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/3E0472F16EB346F8BB94708886876C9F/5214">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/C8711C8B72F8412996A76416772F0E27/5215">
+<meta property="og:updated_time" content="2017-07-22T05:14:53.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenStack入门介绍">
+<meta name="twitter:description" content="参考：原文链接 1、为啥要选择云计算（1）有效的解决了硬件单节点故障问题单点故障是指某个硬件的故障造成网站某个服务的中断。要真正解决这个问题，需要为每个硬件准备冗余，这不仅大大增加了硬件购置成本，而且部署与维护成本也不容小视。而云计算平台是基于服务器集群，从设计之初就考虑了单点故障问题，并在建设时有效地解决了这个问题。如果一家云服务商出现单点故障问题，就如同存在银行的钱丢了。 （2）按需增减资源自">
+<meta name="twitter:image" content="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/0D6CA74259FE4025977AFECF3CD31A55/5213">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/22/OpenStack入门介绍/"/>
+
+
+
+
+
+  <title>OpenStack入门介绍 | Richard</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Richard</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Richard</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/22/OpenStack入门介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Richard">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://ww.xitek.com/album/2011/11/10/2816213345431568490/2816169882787768162.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Richard">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                OpenStack入门介绍
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-22T12:56:47+08:00">
+                2017-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考：<a href="http://www.cnblogs.com/pythonxiaohu/p/5861409.html" target="_blank" rel="noopener">原文链接</a></p>
+<h1 id="1、为啥要选择云计算"><a href="#1、为啥要选择云计算" class="headerlink" title="1、为啥要选择云计算"></a>1、为啥要选择云计算</h1><h2 id="（1）有效的解决了硬件单节点故障问题"><a href="#（1）有效的解决了硬件单节点故障问题" class="headerlink" title="（1）有效的解决了硬件单节点故障问题"></a>（1）有效的解决了硬件单节点故障问题</h2><p>单点故障是指某个硬件的故障造成网站某个服务的中断。要真正解决这个问题，需要为每个硬件准备冗余，这不仅大大增加了硬件购置成本，而且部署与维护成本也不容小视。而云计算平台是基于服务器集群，从设计之初就考虑了单点故障问题，并在建设时有效地解决了这个问题。如果一家云服务商出现单点故障问题，就如同存在银行的钱丢了。</p>
+<h2 id="（2）按需增减资源"><a href="#（2）按需增减资源" class="headerlink" title="（2）按需增减资源"></a>（2）按需增减资源</h2><p>自己托管服务器，增/减硬件一直是头疼的问题。</p>
+<pre><code>1. 增加服务器的时候，购买服务器需要时间，而且这个时间自己无法控制。而使
+   用云服务器，随时可以增加服务器——垂手可得。
+2. 减服务器只能从机房拉回办公室，无法再把服务器退给厂商，购置服务器的成
+   本就浪费了。而使用云服务器，如果下个月不用，不续费就行了（针对阿里云按月购买的情况）——想用就用，想扔就扔。
+3. 不能按需增加满足基本需求的服务器配置。假如我们现在需要一台低配置的服务
+   器用Linux跑缓存服务，如果为之单独购买一台便宜的低配置的服务器很不合算，因为这台服务器仅仅一年的电费就至少要3000元左右。所以只能尽量减少
+    服务器数量，提高单台服务器的配置，在让一台服务器跑更多东西。而使用云服务器，需要什么样的配置就买什么样的配置，让各个服务器的职责更单
+    一，互相之间的影响更小——职责分明，效率更高。
+</code></pre><h2 id="（3）BGP线路解决南北互通问题"><a href="#（3）BGP线路解决南北互通问题" class="headerlink" title="（3）BGP线路解决南北互通问题"></a>（3）BGP线路解决南北互通问题</h2><p>南北互通问题是南方电信与北方联通线路之间的互通问题，这个问题困扰我们多年，之前用过双线机房，解决的也不是很好。目前只有BGP线路才能有效解决这个问题，而拥有真正的BGP线路的机房不是很多，成本也非常高。而我准备使用的阿里云用的就是BGP线路，这也是吸引我们的主要地方之一。<br>    究竟什么是南北互通问题？基于我们的理解简体描述一下，不对之处欢迎指出。南北互通问题实际就是路由问题。假设我们的服务器放在上海电信的机房，上海一位联通的用户访问我们的服务器，要先绕到联通的北京总出口（假设总出口在北京），然后再绕回上海。实际上这位联通用户可以通过上海的线路直接到达我们的服务器，不用绕这么远，但上海电信的机房无法告知联通的路由器走近路过来，只能按照联通路由器设定好的路由走。本来即使走北京绕一下也没有大的影响，毕竟是光的速度，但是由于大多数联通的用户访问电信网络都这么绕着走，联通的总出口成为了瓶颈，总出口流量太大时，联通的用户访问电信的网络速度就会慢。BGP线路也没什么神奇之处，只是它能决定走什么路由过来，不绕远路，问题自然解决了。它有这样的特权，就不仅能解决南北互通的问题，而且能解决其他网络的互通问题，比如教育网。因为有权限决定路由，就可以优化路由，哪条路堵，我就换条路。</p>
+<h2 id="（4）按需增减带宽"><a href="#（4）按需增减带宽" class="headerlink" title="（4）按需增减带宽"></a>（4）按需增减带宽</h2><p>带宽是主要成本，托管服务器时，与ISP服务商签一年合同之前就要确定带宽。用了一段时间之后，你发现带宽买多了，想减一些是不允许的。中途要临时增加带宽一段时间也是不行的，要买就买一年（这是根据我们接触过的ISP服务商）。所以，一般都会多买一些带宽，留一些余量。<br>    使用云服务器可以灵活地增减带宽，不会浪费带宽，即使买少了也不用担心，随时可以增加。虽然各个云服务商会有一定的限制，比如在阿里云一次至少要购买1个月的带宽，但比自己托管服务器灵活很多，同样的带宽条件，会节省不少成本，尤其是带宽需求在一年中变化比较大的网站。</p>
+<h2 id="（5）更为合理的支付方式"><a href="#（5）更为合理的支付方式" class="headerlink" title="（5）更为合理的支付方式"></a>（5）更为合理的支付方式</h2><p>在IDC机房托管服务器一般是签一年合同，一次支付一个季度的费用。<br>    而使用云服务，一次可以支付更短时间的费用，比如阿里云可以一次只支付一个月的费用，节约了流动资金。<br>    从总体上考虑，差不多的成本，却拥有更多的内存、更多的CPU、更多的硬盘空间、更优质的带宽线路，更重要的是可以随时按需扩展计算资源。</p>
+<h1 id="2、云计算服务模式"><a href="#2、云计算服务模式" class="headerlink" title="2、云计算服务模式"></a>2、云计算服务模式</h1><h2 id="（1）laaS：基础设施即服务"><a href="#（1）laaS：基础设施即服务" class="headerlink" title="（1）laaS：基础设施即服务"></a>（1）laaS：基础设施即服务</h2><p>用户通过网络获取虚机、存储、网络，然后用户根据自己的需求操作获取的资源。  典型应用：亚马逊AWS等</p>
+<h2 id="（2）Paas：平台即服务"><a href="#（2）Paas：平台即服务" class="headerlink" title="（2）Paas：平台即服务"></a>（2）Paas：平台即服务</h2><p> 将软件研发平台作为一种服务， 如Eclipse/Java编程平台，服务商提供编程接口/运行平台等。典型应用：Google AppEngine、Force.com、微软Azure等 </p>
+<h2 id="（3）SaaS：软件即服务"><a href="#（3）SaaS：软件即服务" class="headerlink" title="（3）SaaS：软件即服务"></a>（3）SaaS：软件即服务</h2><p>   将软件作为一种服务通过网络提供给用户，如web的电子邮件、HR系统、订单管理系统、客户关系系统等。用户无需购买软件，而是向提供商租用基于web的软件，来管理企业经营活动。典型应用：Google Doc、Saleforce.com、Oracle CRM On Demand、Office Live Workspace等</p>
+<h1 id="3、openstack组件到介绍"><a href="#3、openstack组件到介绍" class="headerlink" title="3、openstack组件到介绍"></a>3、openstack组件到介绍</h1><h2 id="（1）openstack的由来"><a href="#（1）openstack的由来" class="headerlink" title="（1）openstack的由来"></a>（1）openstack的由来</h2><p>openstack最早由美国国家航空航天局NASA研发的Nova和Rackspace研发的swift组成。后来以apache许可证授权,旨在为公共及私有云平台建设。openstack主要用来为企业内部实现类似于Amazon EC2和S3的云基础架构服务（Iaas）.每6个月更新一次，基本与ubuntu同步，命名是以A-Z作为首字母来的。</p>
+<h2 id="（2）openstack项目与组件"><a href="#（2）openstack项目与组件" class="headerlink" title="（2）openstack项目与组件"></a>（2）openstack项目与组件</h2><h3 id="核心项目3个"><a href="#核心项目3个" class="headerlink" title="核心项目3个"></a>核心项目3个</h3><h4 id="1、控制台"><a href="#1、控制台" class="headerlink" title="1、控制台"></a>1、控制台</h4><p>服务名：Dashboard<br>项目名：Horizon<br>功能    ：web方式管理云平台，建立主机、分配网络，配安全组，加云盘</p>
+<h4 id="2、计算"><a href="#2、计算" class="headerlink" title="2、计算"></a>2、计算</h4><p>服务名：Compute<br>项目名：Nova<br>功能    ：负责响应虚拟机创建请求、调度、销毁</p>
+<h4 id="3、网络"><a href="#3、网络" class="headerlink" title="3、网络"></a>3、网络</h4><p>服务名：Network<br>项目名：Neutron （从Quantum改名而来的）<br>功能    ：在各接口设备之间提供网络即服务(networking as a service),而且受其他OpenStack服务管理,如Nova。 具体来说，Neutron为OpenStack云更灵活地划分物理网络，在多租户环境下提供给每个租户独立的网络环境。另外，Neutron提供API来实现这种目标。Neutron中“网络”是一个可以被用户创建的对象，如果要和物理环境下的概念映射的话，这个对象相当于一个巨大的交换机，可以拥有无限多个动态可创建和销毁的虚拟端口。</p>
+<h3 id="存储项目2个"><a href="#存储项目2个" class="headerlink" title="存储项目2个"></a>存储项目2个</h3><h3 id="1、对象存储"><a href="#1、对象存储" class="headerlink" title="1、对象存储"></a>1、对象存储</h3><p>服务名：Object Storage<br>项目名：Swift<br>功能    ：<br>REST风格的接口和扁平的数据组织结构。RESTFUL HTTP API来保存和访问任意非结构化数据，ring环的方式实现数据自动复制和高度可以扩展架构，保证数据的高度容错和可靠性</p>
+<h4 id="2、块存储"><a href="#2、块存储" class="headerlink" title="2、块存储"></a>2、块存储</h4><p>服务名：Block Storage<br>项目名：Cinder<br>功能：提供持久化块存储，也就为云主机提共附加的云盘</p>
+<h3 id="共享服务项目："><a href="#共享服务项目：" class="headerlink" title="共享服务项目："></a>共享服务项目：</h3><h4 id="1、认证服务"><a href="#1、认证服务" class="headerlink" title="1、认证服务"></a>1、认证服务</h4><p>服务名：认证服务<br>项目名：KeySton<br>功能    ：为访问openstack各组件提供认证和授权功能，认证通过后，提供一个服务列表（罗列你有权限访问的服务）。</p>
+<h4 id="2、镜像服务"><a href="#2、镜像服务" class="headerlink" title="2、镜像服务"></a>2、镜像服务</h4><p>服务名：镜像服务<br>项目名：Glance<br>功能    ：为云主机安装操作系统提供不同的镜像选择</p>
+<h4 id="3、计费服务"><a href="#3、计费服务" class="headerlink" title="3、计费服务"></a>3、计费服务</h4><p>服务名：计费服务<br>项目名：Ceilometer<br>功能    ：收集云平台资源使用数据，用来计费或者性能监控</p>
+<h3 id="高层服务项目1个"><a href="#高层服务项目1个" class="headerlink" title="高层服务项目1个"></a>高层服务项目1个</h3><h4 id="1、编排服务"><a href="#1、编排服务" class="headerlink" title="1、编排服务"></a>1、编排服务</h4><p>服务名：编排服务<br>项目名：Heat<br>功能    ：自动化部署应用，自动化管理应用的整个生命周期。主要用于：PaaS</p>
+<h1 id="4、openstack各组件到详解和运行流程"><a href="#4、openstack各组件到详解和运行流程" class="headerlink" title="4、openstack各组件到详解和运行流程"></a>4、openstack各组件到详解和运行流程</h1><h2 id="各组件的逻辑关系图："><a href="#各组件的逻辑关系图：" class="headerlink" title="各组件的逻辑关系图："></a>各组件的逻辑关系图：</h2><p><img src="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/0D6CA74259FE4025977AFECF3CD31A55/5213" alt="image"></p>
+<h2 id="openstack新建云主机到流程图："><a href="#openstack新建云主机到流程图：" class="headerlink" title="openstack新建云主机到流程图："></a>openstack新建云主机到流程图：</h2><p><img src="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/3E0472F16EB346F8BB94708886876C9F/5214" alt="image"></p>
+<h2 id="虚拟机的启动过程："><a href="#虚拟机的启动过程：" class="headerlink" title="虚拟机的启动过程："></a>虚拟机的启动过程：</h2><p>1、界面或命令行通过RESTful API向keystone获取认证信息（Horizon）<br>2、keystone通过用户请求的认证信息，并生成auth-token返回给对应的认证请求。<br>3、界面或命令行通过RESTful API向nova-api发送一个boot instance的请求（携带auth-token）<br>4、nova-api接受请求后，会向keystone发送请求认证信息，查看token是否为有效的用户和token<br>5、keystone验证token是否有效，如果有效则返回有效的认证和对应的角色<br>6、通过认证后，nova-api和数据库通讯<br>7、初始化新建的虚拟机数据库信息。<br>8、nova-api通过rpc.call向nova-scheduler请求是否有创建虚拟机的资源（Host ID）<br>9、nova-scheduler进程侦听消息队列，获取nova-api的请求<br>10、nova-scheduler通过查询nova数据库中计算资源的情况，并通过调度算法计算符合虚拟机创建需要的主机。<br>11、对于有符合虚拟机创建的主机，nova-scheduler更新数据库中虚拟机对应的物理主机信息。<br>12、nova-scheduler通过rpc.cast向nova-compute发送对应的创建虚拟机请求的消息<br>13、nova-compute会从对应的消息队列中获取创建虚拟机请求的消息。<br>14、nova-compute通过rpc.call向nova-conductor请求获取虚拟机消息。（Flavor）<br>15、nova-conductor从消息队列中拿到nova-compute请求消息。<br>16、nova-conductor根据消息查询虚拟机对应的信息。<br>17、nova-conductor从数据库中获得虚拟机对应信息<br>18、nova-conductor把虚拟机信息通过消息的方式发送到消息队列中。<br>19、nova-compute从对应的消息队列中获取虚拟机信息消息。<br>20、nova-compute通过keystone的RESTfull API拿到认证的token，并通过HTTP请求glance-api获取创建虚拟机所需要镜像。<br>21、glance-api向keystone认证token是否有效，并返回验证结果。<br>22、token验证通过，nova-compute获得虚拟机镜像信息(URL)。<br>23、nova-compute通过keystone的RESTfull API拿到认证k的token，并通过HTTP请求neutron-server获取创建虚拟机所需要的网络信息。<br>24、neutron-server向keystone认证token是否有效，并返回验证结果。<br>25、token验证通过，nova-compute获得虚拟机网络信息。<br>26、nova-compute通过keystone的RESTfull API拿到认证的token，并通过HTTP请求cinder-api获取创建虚拟机所需要的持久化存储信息。<br>27、cinder-api向keystone认证token是否有效，并返回验证结果。<br>28、token验证通过，nova-compute获得虚拟机持久化存储信息。<br>29、nova-compute根据instance的信息调用配置的虚拟化驱动来创建虚拟机。</p>
+<h2 id="对复杂的模块进行展开："><a href="#对复杂的模块进行展开：" class="headerlink" title="对复杂的模块进行展开："></a>对复杂的模块进行展开：</h2><h3 id="1、Keystone"><a href="#1、Keystone" class="headerlink" title="1、Keystone"></a>1、Keystone</h3><p>User ：指使用Openstack service的用户，可以是人、服务、系统，但凡使用了Openstack service的对象都可以称为User</p>
+<p>Project（Tenant）：可以理解为一个人、或服务所拥有的 资源集合 。在一个Project(Tenant)中可以包含多个User，每一个User都会根据权限的划分来使用Project(Tenant)中的资源。比如通过Nova创建虚拟机时要指定到某个Project中，在Cinder创建卷也要指定到某个Project中。User访问Project的资源前，必须要与该Project关联，并且指定User在Project下的Role。</p>
+<p>Role：用于划分权限。可以通过给User指定Role，使User获得Role对应的操作权限。Keystone返回给User的Token包含了Role列表，被访问的Services会判断访问它的User和User提供的Token中所包含的Role。系统默认使用管理Role admin和成员Role <em>member</em> 。</p>
+<p>Policy：OpenStack对User的验证除了OpenStack的身份验证以外，还需要鉴别User对某个Service是否有访问权限。Policy机制就是用来控制User对Project（Tenant）中资源(包括Services)的操作权限。对于Keystone service来说，Policy就是一个JSON文件，默认是/etc/keystone/policy.json。通过配置这个文件，Keystone Service实现了对User基于Role的权限管理。</p>
+<p>Token ：是一个字符串表示，作为访问资源的令牌。Token包含了在 指定范围和有效时间内 可以被访问的资源。EG. 在Nova中一个tenant可以是一些虚拟机，在Swift和Glance中一个tenant可以是一些镜像存储，在Network中一个tenant可以是一些网络资源。Token一般被User持有。</p>
+<p>Credentials：用于确认用户身份的凭证</p>
+<p>Authentication：确定用户身份的过程</p>
+<p>Service：Openstack service，即Openstack中运行的组件服务。</p>
+<p>Endpoint：一个可以通过网络来访问和定位某个Openstack service的地址，通常是一个URL。比如，当Nova需要访问Glance服务去获取image 时，Nova通过访问Keystone拿到Glance的endpoint，然后通过访问该endpoint去获取Glance服务。我们可以通过Endpoint的region属性去定义多个region。Endpoint 根据使用对象分为三类：<br>  ● admin url –&gt; 给admin用户使用，Post：35357<br>  ● internal url –&gt; OpenStack内部服务使用来跟别的服务通信，Port：5000<br>  ● public url –&gt; 其它用户可以访问的地址，Post：5000<br>创建完service后创建API EndPoint. 在openstack中，每一个service都有三种Endpoints. Admin, public, internal。 Admin是用作管理用途的，如它能够修改user/tenant(project)。 public 是让客户调用的，比如可以部署在外网上让客户可以管理自己的云。internal是openstack内部调用的。三种Endpoints 在网络上开放的权限一般也不同。Admin通常只能对内网开放，public通常可以对外网开放internal通常只能对安装有openstack对服务的机器开放。</p>
+<h3 id="2、nova和cinder"><a href="#2、nova和cinder" class="headerlink" title="2、nova和cinder"></a>2、nova和cinder</h3><p>nova主要组成：<br>  ● nova-api<br>  ● nova-scheduler<br>  ● nova-compute<br>  ● nova-conductor<br>cinder主要组成：<br>  ● cinder-api<br>  ● cinder-scheduler<br>  ● cinder-volume</p>
+<p>cinder-api是cinder服务的Endpoint，提供rest接口，负责处理client请求。并将RPC请求发送给cinder-scheduler组件</p>
+<p>cinder-scheduler负责cinder调度，其核心部分就是scheduler_drver，作为scheduler manager的driver，负责cinder-volume具体的调度处理，发送cinder RPC请求得到选择的cinder-volume</p>
+<p>cinder-volume负责具体的volume请求处理，由不同的后端存储提供volume存储空间。</p>
+<p>cinder架构图：<br><img src="http://note.youdao.com/yws/public/resource/436221f83d79dd07525663aac919173c/xmlnote/C8711C8B72F8412996A76416772F0E27/5215" alt="image"></p>
+<h3 id="RPC介绍："><a href="#RPC介绍：" class="headerlink" title="RPC介绍："></a>RPC介绍：</h3><p>openstack组件的通信：调用各个组件的api提供的rest接口，<br>组件内的通信：基于RPC（远程过程调用）机制，而RPC机制是基于</p>
+<p>从RPC使用的角度出发，nova、neutron，和cinder的流程是相似的，所以我们以cinder为列，阐述RPC机制：    </p>
+<p>Openstack 组件内部的 RPC（Remote Producer Call）机制的实现是基于 AMQP(Advanced Message Queuing Protocol)作为通讯模型，从而满足组件内部的松耦合性。AMQP 是用于异步消息通讯的消息中间件协议，AMQP 模型有四个重要的角色:<br>1、Exchange：根据 Routing key 转发消息到对应的 Message Queue 中<br>2、 Routing key：用于 Exchange 判断哪些消息需要发送对应的 Message Queue<br>3、Publisher：消息发送者，将消息发送的 Exchange 并指明 Routing Key，以便 Message Queue可以正确的收到消息<br>4、Consumer：消息接受者，从 Message Queue 获取消息</p>
+<p>消息发布者 Publisher 将 Message 发送给 Exchange 并且说明 Routing Key。Exchange 负责根据 Message 的 Routing Key 进行路由，将 Message 正确地转发给相应的 Message Queue。监听在 Message Queue 上的 Consumer 将会从 Queue 中读取消息。Routing Key 是 Exchange 转发信息的依据，因此每个消息都有一个 Routing Key 表明可以接受消息的目的地址，而每个 Message Queue 都可以通过将自己想要接收的 Routing Key 告诉 Exchange 进行 binding，这样 Exchange 就可以将消息正确地转发给相应的 Message Queue。</p>
+<p>Publisher可以分为4类：</p>
+<ol>
+<li>Direct Publisher发送点对点的消息；</li>
+<li>Topic Publisher采用“发布——订阅”模式发送消息；</li>
+<li>Fanout Publisher发送广播消息的发送；</li>
+<li>Notify Publisher同Topic Publisher，发送 Notification 相关的消息</li>
+</ol>
+<p>Exchange可以分为4类：</p>
+<ol>
+<li>Direct Exchange根据Routing Key进行精确匹配，只有对应的 Message Queue 会接受到消息；</li>
+<li>Topic Exchange根据Routing Key进行模式匹配，只要符合模式匹配的Message Queue都会收到消息；</li>
+<li>Fanout Exchange将消息转发给所有绑定的Message Queue。</li>
+</ol>
+<p>AMQP消息模型：</p>
+<p>Client 端发送 RPC 请求由 publisher 发送消息并声明消息地址，consumer 接收消息并进行消息处理，如果需要消息应答则返回处理请求的结果消息。OpenStack RPC 模块提供了 rpc.call，rpc.cast, rpc.fanout_cast 三种 RPC 调用方法，发送和接收 RPC 请求。</p>
+<h3 id="3、neutron"><a href="#3、neutron" class="headerlink" title="3、neutron"></a>3、neutron</h3><p>neutron包含组件：</p>
+<ol>
+<li>neutron-server</li>
+<li>neutron-plugin</li>
+<li>neutron-agent<br>各个组件的作用到介绍<br>1.Neutron-server可以理解为一个专门用来接收Neutron REST API调用的服务器，然后负责将不同的rest api分发到不同的neutron-plugin上。<br>2.Neutron-plugin可以理解为不同网络功能实现的入口，各个厂商可以开发自己的plugin。Neutron-plugin接收neutron-server分发过来的REST API，向neutron database完成一些信息的注册，然后将具体要执行的业务操作和参数通知给自身对应的neutron agent。<br>3.Neutron-agent可以直观地理解为neutron-plugin在设备上的代理，接收相应的neutron-plugin通知的业务操作和参数，并转换为具体的设备级操作，以指导设备的动作。当设备本地发生问题时，neutron-agent会将情况通知给neutron-plugin。<br>4.Neutron database，顾名思义就是Neutron的数据库，一些业务相关的参数都存在这里。<br>5.Network provider，即为实际执行功能的网络设备，一般为虚拟交换机（OVS或者Linux Bridge）。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenStack/" rel="tag"># OpenStack</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/10/7月10日面试题总结/" rel="next" title="7月10日面试题总结">
+                <i class="fa fa-chevron-left"></i> 7月10日面试题总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/06/IPv4数据报的结构/" rel="prev" title="IPv4数据报的结构">
+                IPv4数据报的结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww.xitek.com/album/2011/11/10/2816213345431568490/2816169882787768162.jpg"
+               alt="Richard" />
+          <p class="site-author-name" itemprop="name">Richard</p>
+           
+              <p class="site-description motion-element" itemprop="description">QQ:2930526477 | Email:2930526477@qq.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">71</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、为啥要选择云计算"><span class="nav-number">1.</span> <span class="nav-text">1、为啥要选择云计算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（1）有效的解决了硬件单节点故障问题"><span class="nav-number">1.1.</span> <span class="nav-text">（1）有效的解决了硬件单节点故障问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）按需增减资源"><span class="nav-number">1.2.</span> <span class="nav-text">（2）按需增减资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（3）BGP线路解决南北互通问题"><span class="nav-number">1.3.</span> <span class="nav-text">（3）BGP线路解决南北互通问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（4）按需增减带宽"><span class="nav-number">1.4.</span> <span class="nav-text">（4）按需增减带宽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（5）更为合理的支付方式"><span class="nav-number">1.5.</span> <span class="nav-text">（5）更为合理的支付方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、云计算服务模式"><span class="nav-number">2.</span> <span class="nav-text">2、云计算服务模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（1）laaS：基础设施即服务"><span class="nav-number">2.1.</span> <span class="nav-text">（1）laaS：基础设施即服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）Paas：平台即服务"><span class="nav-number">2.2.</span> <span class="nav-text">（2）Paas：平台即服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（3）SaaS：软件即服务"><span class="nav-number">2.3.</span> <span class="nav-text">（3）SaaS：软件即服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、openstack组件到介绍"><span class="nav-number">3.</span> <span class="nav-text">3、openstack组件到介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#（1）openstack的由来"><span class="nav-number">3.1.</span> <span class="nav-text">（1）openstack的由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#（2）openstack项目与组件"><span class="nav-number">3.2.</span> <span class="nav-text">（2）openstack项目与组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心项目3个"><span class="nav-number">3.2.1.</span> <span class="nav-text">核心项目3个</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、控制台"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">1、控制台</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、计算"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">2、计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、网络"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">3、网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储项目2个"><span class="nav-number">3.2.2.</span> <span class="nav-text">存储项目2个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、对象存储"><span class="nav-number">3.2.3.</span> <span class="nav-text">1、对象存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2、块存储"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">2、块存储</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共享服务项目："><span class="nav-number">3.2.4.</span> <span class="nav-text">共享服务项目：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、认证服务"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">1、认证服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、镜像服务"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">2、镜像服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、计费服务"><span class="nav-number">3.2.4.3.</span> <span class="nav-text">3、计费服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高层服务项目1个"><span class="nav-number">3.2.5.</span> <span class="nav-text">高层服务项目1个</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、编排服务"><span class="nav-number">3.2.5.1.</span> <span class="nav-text">1、编排服务</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、openstack各组件到详解和运行流程"><span class="nav-number">4.</span> <span class="nav-text">4、openstack各组件到详解和运行流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#各组件的逻辑关系图："><span class="nav-number">4.1.</span> <span class="nav-text">各组件的逻辑关系图：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openstack新建云主机到流程图："><span class="nav-number">4.2.</span> <span class="nav-text">openstack新建云主机到流程图：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟机的启动过程："><span class="nav-number">4.3.</span> <span class="nav-text">虚拟机的启动过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对复杂的模块进行展开："><span class="nav-number">4.4.</span> <span class="nav-text">对复杂的模块进行展开：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Keystone"><span class="nav-number">4.4.1.</span> <span class="nav-text">1、Keystone</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、nova和cinder"><span class="nav-number">4.4.2.</span> <span class="nav-text">2、nova和cinder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC介绍："><span class="nav-number">4.4.3.</span> <span class="nav-text">RPC介绍：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、neutron"><span class="nav-number">4.4.4.</span> <span class="nav-text">3、neutron</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Richard</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1081 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="IP," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="IPv4地址划分的方式 标准分类的IP地址 划分子网的三级地址结构 构成超网的CIDR技术 网络地址转换技术  在上篇博客，我已经总结了：标准分类的IP地址，这篇博客我们继续介绍下一种地址划分的方式：划分子网的三级地址结构 什么是子网子网的基本思想就是：将一个网络号下网络再次划分为多个网络段，而这些网络段的划分由该组织">
+<meta name="keywords" content="IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="划分子网的三级地址结构">
+<meta property="og:url" content="http://yoursite.com/2017/05/10/划分子网的三级地址结构/index.html">
+<meta property="og:site_name" content="Richard">
+<meta property="og:description" content="IPv4地址划分的方式 标准分类的IP地址 划分子网的三级地址结构 构成超网的CIDR技术 网络地址转换技术  在上篇博客，我已经总结了：标准分类的IP地址，这篇博客我们继续介绍下一种地址划分的方式：划分子网的三级地址结构 什么是子网子网的基本思想就是：将一个网络号下网络再次划分为多个网络段，而这些网络段的划分由该组织自行决定。子网的结构是：网络号-子网号-主机号。 为什么要引入子网概念 提高了I">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-05-10T12:34:14.838Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="划分子网的三级地址结构">
+<meta name="twitter:description" content="IPv4地址划分的方式 标准分类的IP地址 划分子网的三级地址结构 构成超网的CIDR技术 网络地址转换技术  在上篇博客，我已经总结了：标准分类的IP地址，这篇博客我们继续介绍下一种地址划分的方式：划分子网的三级地址结构 什么是子网子网的基本思想就是：将一个网络号下网络再次划分为多个网络段，而这些网络段的划分由该组织自行决定。子网的结构是：网络号-子网号-主机号。 为什么要引入子网概念 提高了I">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/10/划分子网的三级地址结构/"/>
+
+
+
+
+
+  <title>划分子网的三级地址结构 | Richard</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Richard</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Richard</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/10/划分子网的三级地址结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Richard">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://ww.xitek.com/album/2011/11/10/2816213345431568490/2816169882787768162.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Richard">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                划分子网的三级地址结构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-10T10:43:46+08:00">
+                2017-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="IPv4地址划分的方式"><a href="#IPv4地址划分的方式" class="headerlink" title="IPv4地址划分的方式"></a>IPv4地址划分的方式</h1><ul>
+<li>标准分类的IP地址</li>
+<li>划分子网的三级地址结构</li>
+<li>构成超网的CIDR技术</li>
+<li>网络地址转换技术</li>
+</ul>
+<p>在上篇博客，我已经总结了：<a href="https://ouyanglianjun.github.io/2017/05/08/%E6%A0%87%E5%87%86IP%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB/" target="_blank" rel="noopener">标准分类的IP地址</a>，这篇博客我们继续介绍下一种地址划分的方式：划分子网的三级地址结构</p>
+<h1 id="什么是子网"><a href="#什么是子网" class="headerlink" title="什么是子网"></a>什么是子网</h1><p>子网的基本思想就是：将一个网络号下网络再次划分为多个网络段，而这些网络段的划分由该组织自行决定。子网的结构是：网络号-子网号-主机号。</p>
+<h1 id="为什么要引入子网概念"><a href="#为什么要引入子网概念" class="headerlink" title="为什么要引入子网概念"></a>为什么要引入子网概念</h1><ul>
+<li>提高了IP地址的使用效率。在标准分类的IP地址中，当我们把一个网络号分配给一个组织后，如果该组织给它的内部的主机都分配了IP地址后，还剩余很多闲置的IP地址时，其他组织无法合法利用该资源。但是子网的引入，可以大幅度的解决这个问题</li>
+<li>提高了路由器的工作效率。IP数据包从网际上的一个网络到达另一个网络时，选择路径可以基于网络而不是主机。在大型的网际中，这一点优势特别明显，因为路由表中只存储网络信息而不是主机信息，这样可以大大简化路由表。</li>
+</ul>
+<h1 id="子网地址的结构与划分方法"><a href="#子网地址的结构与划分方法" class="headerlink" title="子网地址的结构与划分方法"></a>子网地址的结构与划分方法</h1><ul>
+<li>子网号是从主机号中提取前几个位作为“子网号”，剩余的位数继续作为“主机号”，因此子网会形成：网络号-子网号-主机号</li>
+<li>子网划分可以应用到A、B、C三类IP地址中。同一子网中的子网号相同。</li>
+<li>子网的具体划分是组织自己内部的事情</li>
+</ul>
+<h1 id="如何识别出一个IP地址的网络号、子网号、主机号"><a href="#如何识别出一个IP地址的网络号、子网号、主机号" class="headerlink" title="如何识别出一个IP地址的网络号、子网号、主机号"></a>如何识别出一个IP地址的网络号、子网号、主机号</h1><p>首先，我们知道子网是应用于A、B、C三类IP地址的，所以通过IP地址的前三位就可以知道该IP地址的属于哪类IP地址，并且可以知道其网络号所占的位数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A类：0__   网络号：8位</span><br><span class="line">B类：10_   网络号：16位</span><br><span class="line">C类：11_   网络号：24位</span><br></pre></td></tr></table></figure>
+<p>那么我们该如何从IP地址中提取出该IP地址的子网号了？这个时候，就需要引入<strong>子网掩码</strong>的概念。</p>
+<h2 id="子网掩码作用"><a href="#子网掩码作用" class="headerlink" title="子网掩码作用"></a>子网掩码作用</h2><p>将IP地址划分为网络位和主机位。网络位包括了：网络号和子网号，所以可以通过子网掩码判断出IP地址的子网号。另外，A、B、C类地址都可以引入他它们自己的子网掩码，具体表现形式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A类：255.0.0.0     前8位都是1</span><br><span class="line">B类：255.255.0.0   前16位都是1</span><br><span class="line">C类：255.255.255.0 前24位都是1</span><br></pre></td></tr></table></figure>
+<h2 id="如何表示子网掩码"><a href="#如何表示子网掩码" class="headerlink" title="如何表示子网掩码"></a>如何表示子网掩码</h2><p>子网掩码和IP地址一样，都是4个字节的，左边是网络位，用二进制数字“1”表示；右边是主机位，用二进制数字“0”表示。</p>
+<p>例如如果一个标准的B类地址，它本来有16位的主机号，现在选择前6位作为子网号，则一个B类地址就可以划分为：64个子网，该子网的掩码可以表示为如下两种形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">255.255.252.0   表示前22位都是1.</span><br><span class="line">/22</span><br></pre></td></tr></table></figure>
+<p>例如网络段:192.168.1.1/24的子网可以表示为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">255.255.255.0</span><br><span class="line">或</span><br><span class="line">/24</span><br></pre></td></tr></table></figure>
+<h1 id="如何帮助一个组织划分子网"><a href="#如何帮助一个组织划分子网" class="headerlink" title="如何帮助一个组织划分子网"></a>如何帮助一个组织划分子网</h1><p>例如一个组织需要对一个B类地址：156.26.0.0进行划分，其中该组织的子网数数需要100个。</p>
+<ul>
+<li>考虑到该组织需要100个子网，所以需要的子网号位数为：7位（2^7&gt;100）。</li>
+<li>子网的掩码为：255.255.254.0/23</li>
+<li>每个子网可以分配的主机数量为：2^9-2。其中减去的两个分别为主机号全0和全1，全0为子网掩码用于标识一个网络段，全1为该子网内的广播地址。</li>
+</ul>
+<h1 id="如何通过子网掩码确定主机号、子网号、两个IP地址是否属于同一子网"><a href="#如何通过子网掩码确定主机号、子网号、两个IP地址是否属于同一子网" class="headerlink" title="如何通过子网掩码确定主机号、子网号、两个IP地址是否属于同一子网"></a>如何通过子网掩码确定主机号、子网号、两个IP地址是否属于同一子网</h1><ul>
+<li>每个子网只有一个掩码，但需要注意，并不是子网掩码相同就是同一子网</li>
+<li>子网号 = IP &amp; 子网掩码</li>
+<li>主机号 = IP &amp; 掩码取反</li>
+<li>如果子网号相同就是属于同一子网</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>假设一个网络中的主机为450台，那么分配一个C类地址不够用，分配一个B类地址又显得太浪费，在这种情况下，就提出了子网化的概念，子网的定义就是把主机地址中的一部分主机位借用为网络位。从而可以让一个B类地址被多个组织使用。这也正是子网的奇妙之处。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IP/" rel="tag"># IP</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/08/标准IP地址的分类/" rel="next" title="标准分类的IP地址">
+                <i class="fa fa-chevron-left"></i> 标准分类的IP地址
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/10/5月10号笔试题总结/" rel="prev" title="5月10号笔试题总结">
+                5月10号笔试题总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ww.xitek.com/album/2011/11/10/2816213345431568490/2816169882787768162.jpg"
+               alt="Richard" />
+          <p class="site-author-name" itemprop="name">Richard</p>
+           
+              <p class="site-description motion-element" itemprop="description">QQ:2930526477 | Email:2930526477@qq.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">71</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IPv4地址划分的方式"><span class="nav-number">1.</span> <span class="nav-text">IPv4地址划分的方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是子网"><span class="nav-number">2.</span> <span class="nav-text">什么是子网</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要引入子网概念"><span class="nav-number">3.</span> <span class="nav-text">为什么要引入子网概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#子网地址的结构与划分方法"><span class="nav-number">4.</span> <span class="nav-text">子网地址的结构与划分方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何识别出一个IP地址的网络号、子网号、主机号"><span class="nav-number">5.</span> <span class="nav-text">如何识别出一个IP地址的网络号、子网号、主机号</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#子网掩码作用"><span class="nav-number">5.1.</span> <span class="nav-text">子网掩码作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示子网掩码"><span class="nav-number">5.2.</span> <span class="nav-text">如何表示子网掩码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何帮助一个组织划分子网"><span class="nav-number">6.</span> <span class="nav-text">如何帮助一个组织划分子网</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何通过子网掩码确定主机号、子网号、两个IP地址是否属于同一子网"><span class="nav-number">7.</span> <span class="nav-text">如何通过子网掩码确定主机号、子网号、两个IP地址是否属于同一子网</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Richard</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
